@@ -1,6 +1,7 @@
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
+const cors = require('cors')
 
 morgan.token('type', function (req, res) { 
     return JSON.stringify(req.body)
@@ -8,6 +9,7 @@ morgan.token('type', function (req, res) {
 
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :type'))
+app.use(cors())
 
 let persons = [
     {
@@ -71,6 +73,7 @@ app.delete('/api/persons/:id', (req, res) => {
     res.status(204).end()
 })
 
+//lisää ressiin että palauttaa saman väkkärän niin frontin listat pysyy kondiksessa
 app.post('/api/persons', (req, res) => {
     const newPerson = req.body
     const newId =  Math.floor(Math.random() * (99999 - 1)) + 1
@@ -91,6 +94,7 @@ app.post('/api/persons', (req, res) => {
     }
 
     persons = [...persons, newPerson]
+    res.status(200).json(newPerson)
     res.status(200).end()
 })
 
