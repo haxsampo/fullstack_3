@@ -79,9 +79,6 @@ app.post('/api/persons', (req, res) => {
     const newId =  Math.floor(Math.random() * (99999 - 1)) + 1
     newPerson.id = newId
 
-    
-    
-
     if(!newPerson.name) {
         res.status(418).send({ error: 'name not included' })
     } 
@@ -99,7 +96,7 @@ app.post('/api/persons', (req, res) => {
 })
 
 
-const port = 3001
+const port = process.env.PORT  || 3001
 app.listen(port, () => {
     console.log(`Server running in port ${port}`)
 })
